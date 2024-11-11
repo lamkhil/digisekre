@@ -41,6 +41,10 @@ class User extends Authenticatable implements FilamentUser
         return $this->belongsTo(Dpc::class);
     }
 
+    public function anggota(){
+        return $this->belongsTo(Anggota::class, 'nik', 'nik');
+    }
+
     
     protected $hidden = [
         'password',
