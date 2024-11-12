@@ -17,11 +17,7 @@ class AnggotaMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::user()?->is_admin === 'Supervisor') {
-            return redirect()->route('filament.admin.pages.dashboard');
-        }
-
-        if (Auth::user()?->nik == null && $request->route()->getName() != 'filament.anggota.pages.register-data') {
-            return redirect()->route('filament.anggota.pages.register-data');
+            return redirect()->route('filament.admin.pages.beranda');
         }
         return $next($request);
     }

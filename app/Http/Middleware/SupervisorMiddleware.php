@@ -17,7 +17,7 @@ class SupervisorMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::user()?->is_admin != 'Supervisor') {
-            return redirect()->route('filament.anggota.pages.dashboard');
+            return redirect()->route('filament.anggota.pages.beranda');
         }
         return $next($request);
     }
