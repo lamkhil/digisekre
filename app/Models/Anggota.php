@@ -12,11 +12,8 @@ class Anggota extends Model
 {
     use HasFactory;
 
-    protected $casts = [
-        'agama'  => ReligionStatus::class,
-        'jk'  => JenisKelaminStatus::class,
-    ];
     protected $primaryKey = 'nik';
+    
     protected $fillable = [
         'nama',
         'tempat_lahir',

@@ -18,7 +18,16 @@ class ProfileResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ProfilSaya::route('/')
+            'index' => Pages\ProfilSaya::route('/'),
+            'edit' => Pages\EditDataDiri::route('/edit'),
+            'pekerjaan' => Pages\DataPekerjaan::route('/pekerjaan'),
+            'str' => Pages\DataSTR::route('/str'),
+            'pekerjaan' => Pages\DataPekerjaan::route('/pekerjaan'),
+            'serkom' => Pages\DataSerkom::route('/serkom'),
+            'sumprof' => Pages\DataSumprof::route('/sumprof'),
+            'iuran' => Pages\DataIuran::route('/iuran'),
+            'ktp' => Pages\DataKTP::route('/ktp'),
+            'kta-siporlin' => Pages\DataKTASiporlin::route('/kta'),
         ];
     }
 }
