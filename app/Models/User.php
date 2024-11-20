@@ -37,15 +37,42 @@ class User extends Authenticatable implements FilamentUser
         return true;
     }
 
-    public function dpc(){
+    public function dpc()
+    {
         return $this->belongsTo(Dpc::class);
     }
 
-    public function anggota(){
+    public function anggota()
+    {
         return $this->belongsTo(Anggota::class, 'nik', 'nik');
     }
 
-    
+    public function str()
+    {
+        return $this->belongsTo(Str::class, 'nik', 'nik');
+    }
+    public function pekerjaan()
+    {
+        return $this->belongsTo(Str::class, 'nik', 'nik');
+    }
+    public function iuran()
+    {
+        return $this->belongsTo(Str::class, 'nik', 'nik');
+    }
+    public function serkom()
+    {
+        return $this->belongsTo(Str::class, 'nik', 'nik');
+    }
+    public function pendidikan()
+    {
+        return $this->belongsTo(Str::class, 'nik', 'nik');
+    }
+    public function semprof()
+    {
+        return $this->belongsTo(Str::class, 'nik', 'nik');
+    }
+
+
     protected $hidden = [
         'password',
         'remember_token',

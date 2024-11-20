@@ -6,16 +6,16 @@ use App\Filament\Anggota\Resources\ProfileResource;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 
-class DataSumprof extends Page
+class DataPendidikan extends Page
 {
     protected static string $resource = ProfileResource::class;
 
-    protected static string $view = 'filament.anggota.resources.profile-resource.pages.data-sumprof';
+    protected static string $view = 'filament.anggota.resources.profile-resource.pages.data-pendidikan';
 
-    public $sumprof;
+    public $pendidikan;
 
     public function mount()
     {
-        $this->sumprof = Auth::user()->sumprof;
+        $this->pendidikan = Auth::user()->pendidikan;
     }
 }

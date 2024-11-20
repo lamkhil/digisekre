@@ -12,17 +12,17 @@
     </div>
     <div class="flex flex-col space-y-4 mt-4 text-sm md:text-base">
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">NIK</span>
-            <div class="flex items-center space-x-2"><span class="font-semibold flex-1 md:pl-12">{{ $anggota->nik }}</span><span class="bg-mint rounded-2xl text-white text-xs font-semibold py-0.5 px-1.5">Tervalidasi</span></div>
+            <div class="flex items-center space-x-2"><span class="font-semibold flex-1 md:pl-12">{{ $anggota?->nik }}</span><span class="bg-mint rounded-2xl text-white text-xs font-semibold py-0.5 px-1.5">Tervalidasi</span></div>
         </div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Nama</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota->nama }}</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Tempat/tanggal lahir</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota->tempat_lahir }}, {{ $anggota->tanggal_lahir }}</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Jenis kelamin</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota->jk }}</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Kewarganegaraan</span><span class="font-semibold flex-1 md:pl-12">WNI</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Negara</span><span class="font-semibold flex-1 md:pl-12">Indonesia</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Negara domisili</span><span class="font-semibold flex-1 md:pl-12">Indonesia</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Provinsi domisili</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota->provinsi }}</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Kota/kabupaten domisili</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota->kab }}</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Alamat domisili</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota->alamat }}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Nama</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota?->nama }}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Tempat/tanggal lahir</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota?->tempat_lahir }}, {{ $anggota?->tanggal_lahir }}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Jenis kelamin</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota?->jk }}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Agama</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota?->agama }}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Golongan Darah</span><span class="font-semibold flex-1 md:pl-12">{{$anggota?->gd}}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">DPC</span><span class="font-semibold flex-1 md:pl-12">{{$anggota?->dpc}}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Provinsi</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota?->provinsi }}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Kota/kabupaten</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota?->kab }}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Alamat domisili</span><span class="font-semibold flex-1 md:pl-12">{{ $anggota?->alamat }}</span></div>
     </div>
 </div>
 @endsection

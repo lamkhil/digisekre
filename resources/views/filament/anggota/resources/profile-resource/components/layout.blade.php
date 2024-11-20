@@ -28,6 +28,9 @@
                             <a class="whitespace-nowrap text-base md:font-semibold px-2 md:px-4 py-2 flex border-b-2 {{ ($active??null) == 'pekerjaan' ? 'text-primary-500 border-primary-500' : 'text-sonic-silver border-transparent' }}" href="{{ route('filament.anggota.resources.profiles.pekerjaan') }}"><span class="whitespace-nowrap">Pekerjaan</span></a>
                         </li>
                         <li class="-mb-0.5">
+                            <a class="whitespace-nowrap text-base md:font-semibold px-2 md:px-4 py-2 flex border-b-2 {{ ($active??null) == 'pendidikan' ? 'text-primary-500 border-primary-500' : 'text-sonic-silver border-transparent' }}" href="{{ route('filament.anggota.resources.profiles.pendidikan') }}"><span class="whitespace-nowrap">Pendidikan</span></a>
+                        </li>
+                        <li class="-mb-0.5">
                             <a class="whitespace-nowrap text-base md:font-semibold px-2 md:px-4 py-2 flex border-b-2 {{ ($active??null) == 'sumprof' ? 'text-primary-500 border-primary-500' : 'text-sonic-silver border-transparent' }}" href="{{ route('filament.anggota.resources.profiles.sumprof') }}"><span class="whitespace-nowrap">Sumprof</span></a>
                         </li>
                         <li class="-mb-0.5">

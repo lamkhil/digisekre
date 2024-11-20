@@ -23,10 +23,10 @@ class AvatarUploader extends Component implements HasForms
     public function mount(): void
     {
         $this->form->fill([
-            'profile' => Auth::user()->anggota->foto,
+            'profile' => Auth::user()->anggota?->foto,
         ]);
 
-        $this->profilePath = Auth::user()->anggota->foto;
+        $this->profilePath = Auth::user()->anggota?->foto;
     }
 
     public function form(Form $form): Form
