@@ -10,6 +10,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -47,8 +48,10 @@ class EditSumprof extends Page
                     ->length(16)
                     ->required(),
                 DatePicker::make('tanggal_sumprof'),
-                FileUpload::make('scan_sumprof_1')->required(),
-                FileUpload::make('scan_sumprof_2')->required(),
+                FileUpload::make('scan_sumprof_1')
+                    ->label('Scan Sumprof I')->required(),
+                FileUpload::make('scan_sumprof_2')
+                    ->label('Scan Sumprof II')->required(),
             ])->statePath('data');
     }
 
@@ -76,10 +79,26 @@ class EditSumprof extends Page
         // Lanjutkan logic untuk menyimpan data di Model Anggota atau User, lakukan logic didalam transaction
         try {
             DB::beginTransaction();
-            // Simpan data ke Model Anggota atau User
-            DB::commit();
-        } catch (\Throwable $th) {
-            DB::rollBack();
-        }
+           /** @var \App\Models\User */
+           $user = Auth::user();
+
+           $user->sumprof()->updateOrCreate([
+               'nik' => $user->nik
+           ],$data);
+           DB::commit();
+           Notification::make('success')
+               ->title('Berhasil')
+               ->body('Data sumprof berhasil disimpan')
+               ->success()
+               ->send();
+               return redirect()->route('filament.anggota.resources.profiles.sumprof');
+       } catch (\Throwable $th) {
+           DB::rollBack();
+           Notification::make('error')
+               ->title('Gagal')
+               ->body(config('app.debug') ? $th->getMessage():'Data sumprof gagal disimpan')
+               ->danger()
+               ->send();
+       }
     }
 }

@@ -35,5 +35,20 @@ class Pengajuan extends Model
         'cpd',
         'sanksi',    
     ];
+
+    public function anggota()
+    {
+        return $this->belongsTo(Anggota::class, 'nik', 'nik');
+    }
+
+    public function mutasi()
+    {
+        return $this->hasOne(Mutasi::class, 'pengajuan_id', 'id');
+    }
+
+    public function rekomendasi()
+    {
+        return $this->hasOne(Rekomendasi::class, 'pengajuan_id', 'id');
+    }
 }
 

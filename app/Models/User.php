@@ -15,23 +15,6 @@ class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
 
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'is_admin',
-        'nik',
-        'kab_kota',
-        'dpc',
-        'dpd',
-        'wa',
-        'mutasi',
-        'verif',
-        'instansi_id',
-        'role_id',
-        'is_active',
-    ];
-
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
@@ -53,23 +36,28 @@ class User extends Authenticatable implements FilamentUser
     }
     public function pekerjaan()
     {
-        return $this->belongsTo(Str::class, 'nik', 'nik');
+        return $this->belongsTo(Pekerjaan::class, 'nik', 'nik');
     }
     public function iuran()
     {
-        return $this->belongsTo(Str::class, 'nik', 'nik');
+        return $this->hasMany(Iuran::class, 'anggota_nik', 'nik');
     }
     public function serkom()
     {
-        return $this->belongsTo(Str::class, 'nik', 'nik');
+        return $this->belongsTo(Serkom::class, 'nik', 'nik');
     }
     public function pendidikan()
     {
-        return $this->belongsTo(Str::class, 'nik', 'nik');
+        return $this->belongsTo(Pendidikan::class, 'nik', 'nik');
     }
-    public function semprof()
+    public function sumprof()
     {
-        return $this->belongsTo(Str::class, 'nik', 'nik');
+        return $this->belongsTo(Sumprof::class, 'nik', 'nik');
+    }
+
+    public function kartu()
+    {
+        return $this->belongsTo(Kartu::class, 'nik', 'nik');
     }
 
 

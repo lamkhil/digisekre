@@ -12,11 +12,13 @@
     </div>
     <div class="flex flex-col space-y-4 mt-4 text-sm md:text-base">
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">NIK</span>
-            <div class="flex items-center space-x-2"><span class="font-semibold flex-1 md:pl-12">3273101602900003</span><span class="bg-mint rounded-2xl text-white text-xs font-semibold py-0.5 px-1.5">Tervalidasi</span></div>
+            <div class="flex items-center space-x-2"><span class="font-semibold flex-1 md:pl-12">
+                {{ $serkom?->nik }}
+            </span><span class="bg-mint rounded-2xl text-white text-xs font-semibold py-0.5 px-1.5">Tervalidasi</span></div>
         </div>
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">No Serkom</span><span class="font-semibold flex-1 md:pl-12">{{$serkom?->no_serkom}}</span></div>
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Tanggal Terbit</span><span class="font-semibold flex-1 md:pl-12">{{$serkom?->tanggal_terbit}}</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Scan Serkom</span><span class="font-semibold flex-1 md:pl-12">{{$serkom?->scan_serkom}}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Scan Serkom</span><a target="_blank" href="{{ asset('storage/'.$serkom?->scan_serkom) }}" class="font-semibold flex-1 md:pl-12 text-blue-500">{{$serkom?->scan_serkom}}</a></div>
     </div>
 </div>
 @endsection

@@ -13,6 +13,8 @@ class Beranda extends Page
 
     protected static ?string $navigationLabel = "Beranda";
 
+    protected static ?string $navigationGroup = 'Umum';
+
     protected static ?string $title = '';
 
     // Page Data

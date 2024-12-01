@@ -12,11 +12,11 @@
     </div>
     <div class="flex flex-col space-y-4 mt-4 text-sm md:text-base">
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">NIK</span>
-            <div class="flex items-center space-x-2"><span class="font-semibold flex-1 md:pl-12">3273101602900003</span><span class="bg-mint rounded-2xl text-white text-xs font-semibold py-0.5 px-1.5">Tervalidasi</span></div>
+            <div class="flex items-center space-x-2"><span class="font-semibold flex-1 md:pl-12">{{ $pekerjaan?->nik }}</span><span class="bg-mint rounded-2xl text-white text-xs font-semibold py-0.5 px-1.5">Tervalidasi</span></div>
         </div>
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Jenis Instansi</span><span class="font-semibold flex-1 md:pl-12">{{$pekerjaan?->jenis_instansi}}</span></div>
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Nama Instansi</span><span class="font-semibold flex-1 md:pl-12">{{$pekerjaan?->nama_instansi}}</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Provinsi</span><span class="font-semibold flex-1 md:pl-12">{{$pekerjaan?->Provinsi}}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Provinsi</span><span class="font-semibold flex-1 md:pl-12">{{$pekerjaan?->provinsi}}</span></div>
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Kab Kota</span><span class="font-semibold flex-1 md:pl-12">{{$pekerjaan?->kab_kota}}</span></div>
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Awal Kerja</span><span class="font-semibold flex-1 md:pl-12">{{$pekerjaan?->awal_kerja}}</span></div>
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Status</span><span class="font-semibold flex-1 md:pl-12">{{$pekerjaan?->status}}</span></div>

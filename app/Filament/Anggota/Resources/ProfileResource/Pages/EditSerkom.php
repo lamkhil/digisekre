@@ -10,7 +10,9 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
+use Filament\Support\Colors\Color;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -41,14 +43,8 @@ class EditSerkom extends Page
     {
         return $form
             ->schema([
-                TextInput::make('nik')
-                    ->label('NIK')
-                    ->numeric()
-                    ->length(16)
-                    ->required(),
                 TextInput::make('no_serkom')
-                    ->required()
-                    ->integer(),
+                    ->required(),
                 DatePicker::make('tanggal_terbit'),
                 FileUpload::make('scan_serkom')->required()
             ])->statePath('data');
@@ -57,6 +53,7 @@ class EditSerkom extends Page
     public function save()
     {
         return Action::make('save')
+            ->requiresConfirmation()
             ->label('Simpan')
             ->action('saveData');
     }
@@ -64,10 +61,12 @@ class EditSerkom extends Page
     public function cancel()
     {
         return Action::make('cancel')
+            ->requiresConfirmation()
+            ->color(Color::Red)
             ->label('Batal')
             ->outlined()
             ->action(function () {
-                return redirect()->route('filament.anggota.resources.profiles.index');
+                return redirect()->route('filament.anggota.resources.profiles.serkom');
             });
     }
 
@@ -78,10 +77,29 @@ class EditSerkom extends Page
         // Lanjutkan logic untuk menyimpan data di Model Anggota atau User, lakukan logic didalam transaction
         try {
             DB::beginTransaction();
-            // Simpan data ke Model Anggota atau User
+            /** @var \App\Models\User */
+            $user = Auth::user();
+            $serkom = $user->serkom;
+            if ($serkom) {
+                $serkom->update($data);
+            } else {
+                $data['nik'] = $user->nik;
+                $user->serkom()->create($data);
+            }
             DB::commit();
+            Notification::make('berhasil')
+                ->title('Data berhasil disimpan')
+                ->body('Data Serkom berhasil disimpan')
+                ->success()
+                ->send();
+            return redirect()->route('filament.anggota.resources.profiles.serkom');
         } catch (\Throwable $th) {
             DB::rollBack();
+            Notification::make('gagal')
+                ->title('Data gagal disimpan')
+                ->body('Data Serkom gagal disimpan')
+                ->danger()
+                ->send();
         }
     }
 }

@@ -14,6 +14,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +53,7 @@ class EditPekerjaan extends Page
                 Select::make('jenis_instansi')
                     ->label('Jenis Instansi')
                     ->searchable()
+                    ->native(false)
                     ->options([
                         'Pusat Kesehatan Masyarakat' => 'Pusat Kesehatan Masyarakat',
                         'RS Swasta' => 'RS Swasta',
@@ -67,6 +69,7 @@ class EditPekerjaan extends Page
                     ->native(false),
                 Select::make('status')
                     ->label('Status')
+                    ->native(false)
                     ->options([
                         'Swasta Kontrak' => 'Swasta Kontrak',
                         'Swasta Tetap' => 'Swasta Tetap',
@@ -74,6 +77,7 @@ class EditPekerjaan extends Page
                     ]),
                 Select::make('jabatan')
                     ->searchable()
+                    ->native(false)
                     ->options([
                         'Coding' => 'Coding',
                         'Pendaftaran' => 'Pendaftaran',
@@ -87,6 +91,7 @@ class EditPekerjaan extends Page
                     ]),
                 Select::make('domain')
                     ->searchable()
+                    ->native(false)
                     ->options([
                         'Utama' => 'Utama',
                         'Kedua' => 'Kedua',
@@ -96,11 +101,14 @@ class EditPekerjaan extends Page
                     ->label('DPC')
                     ->options(Dpc::pluck('nama_dpc', 'id'))
                     ->searchable(),
-                TextInput::make('nip'),
+                TextInput::make('nip')
+                    ->label('NIP'),
                 TextInput::make('pangkat'),
                 TextInput::make('jabatan_fungsional'),
-                TextInput::make('no_sk_jabfung'),
-                TextInput::make('tmt_jabfung'),
+                TextInput::make('no_sk_jabfung')
+                    ->label('No. SK Jabfung'),
+                DatePicker::make('tmt_jabfung')
+                    ->label('TMT Jabfung'),
 
             ])->statePath('data');
     }
@@ -125,14 +133,28 @@ class EditPekerjaan extends Page
     public function saveData()
     {
         $data = $this->form->getState();
-
-        // Lanjutkan logic untuk menyimpan data di Model Anggota atau User, lakukan logic didalam transaction
         try {
             DB::beginTransaction();
-            // Simpan data ke Model Anggota atau User
+            /** @var \App\Models\User */
+            $user = Auth::user();
+
+            $user->pekerjaan()->updateOrCreate([
+                'nik' => $user->nik
+            ],$data);
             DB::commit();
+            Notification::make('success')
+                ->title('Berhasil')
+                ->body('Data pekerjaan berhasil disimpan')
+                ->success()
+                ->send();
+                return redirect()->route('filament.anggota.resources.profiles.pekerjaan');
         } catch (\Throwable $th) {
             DB::rollBack();
+            Notification::make('error')
+                ->title('Gagal')
+                ->body(config('app.debug') ? $th->getMessage():'Data pekerjaan gagal disimpan')
+                ->danger()
+                ->send();
         }
     }
 }

@@ -9,11 +9,5 @@ class Serkom extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'id',
-        'nik',
-        'no_serkom',
-        'tanggal_terbit',
-        'scan_serkom'
-    ];
+    protected $table = 'serkoms';
 }

@@ -12,13 +12,13 @@
     </div>
     <div class="flex flex-col space-y-4 mt-4 text-sm md:text-base">
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">NIK</span>
-            <div class="flex items-center space-x-2"><span class="font-semibold flex-1 md:pl-12">3273101602900003</span><span class="bg-mint rounded-2xl text-white text-xs font-semibold py-0.5 px-1.5">Tervalidasi</span></div>
+            <div class="flex items-center space-x-2"><span class="font-semibold flex-1 md:pl-12">{{ $str?->nik }}</span><span class="bg-mint rounded-2xl text-white text-xs font-semibold py-0.5 px-1.5">Tervalidasi</span></div>
         </div>
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">No STR</span><span class="font-semibold flex-1 md:pl-12">{{$str?->no_str}}</span></div>
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">No Serkom</span><span class="font-semibold flex-1 md:pl-12">{{$str?->no_serkom}}</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Tanggal Terbit</span><span class="font-semibold flex-1 md:pl-12">WNI</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Tanggal Berakhir</span><span class="font-semibold flex-1 md:pl-12">Indonesia</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Scan STR</span><span class="font-semibold flex-1 md:pl-12">Indonesia</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Tanggal Terbit</span><span class="font-semibold flex-1 md:pl-12">{{ $str?->tanggal_terbit }}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Tanggal Berakhir</span><span class="font-semibold flex-1 md:pl-12">{{ $str?->tanggal_berakhir }}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Scan STR</span><a target="_blank" href="{{ asset('storage/'.$str?->scan_str) }}" class="font-semibold flex-1 md:pl-12 text-blue-500">{{$str?->scan_str}}</a></div>
       
     </div>
 </div>

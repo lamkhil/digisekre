@@ -18,20 +18,20 @@
 
 <body class="font-sans text-gray-900 antialiased">
     <div class="font-[sans-serif]">
-        <div class="grid lg:grid-cols-3 md:grid-cols-2 items-center gap-4 h-full bg-gray-100 dark:bg-gray-900">
-            <div class="max-md:order-1 lg:col-span-2 md:h-screen w-full bg-[#000842] md:rounded-tr-xl md:rounded-br-xl lg:p-12 p-8 hidden sm:block">
+        <div class="grid lg:grid-cols-3 md:grid-cols-2 items-center gap-4 min-h-screen bg-gray-100">
+            <div class="max-md:order-1 lg:col-span-2 md:h-full w-full bg-white md:rounded-tr-xl md:rounded-br-xl lg:p-12 p-8 hidden sm:block">
                 <img src="https://readymadeui.com/signin-image.webp" class="lg:w-[70%] w-full h-full object-contain block mx-auto" alt="login-image" />
             </div>
 
-            <div class="w-full p-6">
-                <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
+            <div class="w-full p-6 h-full">
+                <div class="flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 h-full">
                     <div>
                         <a href="/">
                             <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
                         </a>
                     </div>
 
-                    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+                    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                         {{ $slot }}
                     </div>
                 </div>

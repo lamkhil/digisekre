@@ -20,7 +20,7 @@
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Gelar</span><span class="font-semibold flex-1 md:pl-12">{{$pendidikan?->gelar}}</span></div>
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">No Ijazah</span><span class="font-semibold flex-1 md:pl-12">{{$pendidikan?->no_ijazah}}</span></div>
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Tanggal Ijazah</span><span class="font-semibold flex-1 md:pl-12">{{$pendidikan?->tanggal_ijazah}}</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Scan Ijazah</span><span class="font-semibold flex-1 md:pl-12">{{$pendidikan?->scan_ijazah}}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Scan Ijazah</span><a target="_blank" href="{{ asset('storage/'.$pendidikan?->scan_ijazah) }}" class="font-semibold flex-1 md:pl-12 text-blue-500">{{$pendidikan?->scan_ijazah}}</a></div>
     </div>
 </div>
 @endsection

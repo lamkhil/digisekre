@@ -3,11 +3,14 @@
 namespace App\Filament\Anggota\Resources\ProfileResource\Pages;
 
 use App\Filament\Anggota\Resources\ProfileResource;
+use App\Models\Anggota;
 use App\Models\WilayahDesa;
 use App\Models\WilayahKabupaten;
 use App\Models\WilayahKecamatan;
 use App\Models\WilayahProvinsi;
 use Filament\Actions\Action;
+use Filament\Actions\Concerns\InteractsWithActions;
+use Filament\Facades\Filament;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Radio;
@@ -16,6 +19,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +27,7 @@ use Illuminate\Support\Facades\DB;
 
 class EditDataDiri extends Page
 {
+    use InteractsWithActions;
 
     protected static string $resource = ProfileResource::class;
 
@@ -52,6 +57,14 @@ class EditDataDiri extends Page
             ->schema([
                 TextInput::make('nik')
                     ->numeric()
+                    ->disabled(function () {
+                        return Auth::user()->nik != null;
+                    })
+                    ->unique(
+                        Anggota::class,
+                        'nik',
+                        Auth::user()->anggota
+                    )
                     ->length(16)
                     ->required(),
                 TextInput::make('nama')->required(),
@@ -68,6 +81,25 @@ class EditDataDiri extends Page
                         'Laki-laki' => 'Laki-laki',
                         'Perempuan' => 'Perempuan',
                     ]),
+                Select::make('gd')
+                    ->label('Golongan Darah')
+                    ->options([
+                        'A' => 'A',
+                        'B' => 'B',
+                        'AB' => 'AB',
+                        'O' => 'O',
+                    ]),
+                Select::make('status')
+                    ->label('Status')
+                    ->options([
+                        'Kawin' => 'Kawin',
+                        'Belum Kawin' => 'Belum Kawin',
+                        'Cerai Hidup' => 'Cerai Hidup',
+                        'Cerai Mati' => 'Cerai Mati',
+                    ]),
+                TextInput::make('pekerjaan')
+                    ->required()
+                    ->label('Pekerjaan'),
                 Select::make('agama')
                     ->label('Agama')
                     ->searchable()
@@ -84,39 +116,37 @@ class EditDataDiri extends Page
                 TextInput::make('rt')
                     ->inlineLabel()
                     ->label('RT')
-                    ->numeric()
-                    ->length(3),
+                    ->numeric(),
                 TextInput::make('rw')
                     ->inlineLabel()
                     ->label('RW')
-                    ->numeric()
-                    ->length(3),
+                    ->numeric(),
 
-                    Select::make('provinsi')
+                Select::make('provinsi')
                     ->label('Provinsi')
                     ->options(WilayahProvinsi::pluck('nama', 'id'))
                     ->searchable(),
-                
+
                 Select::make('kab')
                     ->label('Kabupaten')
                     ->options(fn(callable $get) => WilayahKabupaten::where('provinsi_id', $get('provinsi'))->pluck('nama', 'id'))
                     ->searchable()
                     ->disabled(fn(callable $get) => !$get('provinsi')),
-                
+
                 Select::make('kec')
                     ->label('Kecamatan')
                     ->options(fn(callable $get) => WilayahKecamatan::where('kabupaten_id', $get('kab'))->pluck('nama', 'id'))
                     ->searchable()
                     ->disabled(fn(callable $get) => !$get('kab')),
-                
+
                 Select::make('desa_kel')
                     ->label('Kelurahan')
                     ->options(fn(callable $get) => WilayahDesa::where('kecamatan_id', $get('kec'))->pluck('nama', 'id'))
                     ->searchable()
                     ->disabled(fn(callable $get) => !$get('kec')),
-                    FileUpload::make('ktp')
+                FileUpload::make('ktp')
                     ->label('Upload Ktp'),
-                    FileUpload::make('foto')
+                FileUpload::make('foto')
                     ->label('Upload Foto')
             ])->statePath('data');
     }
@@ -124,13 +154,17 @@ class EditDataDiri extends Page
     public function save()
     {
         return Action::make('save')
+            ->requiresConfirmation()
             ->label('Simpan')
-            ->action('saveData');
+            ->action(function () {
+                $this->saveData();
+            });
     }
 
     public function cancel()
     {
         return Action::make('cancel')
+            ->requiresConfirmation()
             ->label('Batal')
             ->outlined()
             ->action(function () {
@@ -142,13 +176,36 @@ class EditDataDiri extends Page
     {
         $data = $this->form->getState();
 
-        // Lanjutkan logic untuk menyimpan data di Model Anggota atau User, lakukan logic didalam transaction
+
+
         try {
             DB::beginTransaction();
-            // Simpan data ke Model Anggota atau User
+            /** @var App\Models\User | null */
+            $user = Filament::auth()->user();
+
+            if ($user->nik == null) {
+                Anggota::create($data);
+            } else {
+                Anggota::where('nik', $user->nik)->update($data);
+            }
+            $user->nik = $data['nik'];
+            $user->name = $data['nama'];
+            $user->save();
+
+            Notification::make('success')
+                ->title('Berhasil')
+                ->body('Data diri Anda berhasil disimpan')
+                ->success()
+                ->send();
             DB::commit();
+            return redirect()->route('filament.anggota.resources.profiles.index');
         } catch (\Throwable $th) {
             DB::rollBack();
+            Notification::make('error')
+                ->title('Gagal')
+                ->body($th->getMessage())
+                ->danger()
+                ->send();
         }
     }
 }

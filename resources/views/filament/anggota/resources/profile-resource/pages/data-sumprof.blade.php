@@ -15,8 +15,8 @@
             <div class="flex items-center space-x-2"><span class="font-semibold flex-1 md:pl-12">3273101602900003</span><span class="bg-mint rounded-2xl text-white text-xs font-semibold py-0.5 px-1.5">Tervalidasi</span></div>
         </div>
         <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Tanggal Sumprof</span><span class="font-semibold flex-1 md:pl-12">{{$sumprof?->tanggal_sumprof}}</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Scan Sumprof 1</span><span class="font-semibold flex-1 md:pl-12">{{$sumprof?->scan_sumprof_1}}</span></div>
-        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Scan Sumprof 2</span><span class="font-semibold flex-1 md:pl-12">{{$sumprof?->scan_sumprof_2}}</span></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Scan Sumprof I</span><a target="_blank" href="{{ asset('storage/'.$sumprof?->scan_sumprof_1) }}" class="font-semibold flex-1 md:pl-12 text-blue-500">{{$sumprof?->scan_sumprof_1}}</a></div>
+        <div class="flex flex-col md:flex-row"><span class="w-full md:w-[320px]">Scan Sumprof II</span><a target="_blank" href="{{ asset('storage/'.$sumprof?->scan_sumprof_2) }}" class="font-semibold flex-1 md:pl-12 text-blue-500">{{$sumprof?->scan_sumprof_2}}</a></div>
         
     </div>
 </div>

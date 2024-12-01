@@ -10,6 +10,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,6 +26,14 @@ class EditStr extends Page
 
     public function mount()
     {
+        if (Auth::user()->nik == null) {
+            Notification::make('error')
+                ->title('Gagal')
+                ->body('Lengkapi data diri Anda terlebih dahulu')
+                ->danger()
+                ->send();
+            return redirect()->route('filament.anggota.resources.profiles.data-diri');
+        }
         $str = Auth::user()->str?->toArray() ?? [];
         $data = [];
 
@@ -42,37 +51,38 @@ class EditStr extends Page
     {
         return $form
             ->schema([
-                TextInput::make('nik')
-                    ->label('NIK')
-                    ->numeric()
-                    ->length(16)
-                    ->required(),
                 TextInput::make('no_str')
-                    ->required()
-                    ->integer(),
+                    ->label('Nomor STR')
+                    ->required(),
                 TextInput::make('no_serkom')
-                    ->required()
-                    ->integer(),
+                    ->label('Nomor Serkom')
+                    ->required(),
                 DatePicker::make('tanggal_terbit'),
                 DatePicker::make('tanggal_berakhir'),
-                FileUpload::make('scan_str')->required()
+                FileUpload::make('scan_str')
+                    ->required()
+                    ->label('Scan STR')
             ])->statePath('data');
     }
 
     public function save()
     {
         return Action::make('save')
+            ->requiresConfirmation()
             ->label('Simpan')
-            ->action('saveData');
+            ->action(function () {
+                $this->saveData();
+            });
     }
 
     public function cancel()
     {
         return Action::make('cancel')
+            ->requiresConfirmation()
             ->label('Batal')
             ->outlined()
             ->action(function () {
-                return redirect()->route('filament.anggota.resources.profiles.index');
+                return redirect()->route('filament.anggota.resources.profiles.str');
             });
     }
 
@@ -83,10 +93,29 @@ class EditStr extends Page
         // Lanjutkan logic untuk menyimpan data di Model Anggota atau User, lakukan logic didalam transaction
         try {
             DB::beginTransaction();
-            // Simpan data ke Model Anggota atau User
+            /** @var \App\Models\User */
+            $user = Auth::user();
+            $str = Auth::user()->str;
+            if ($str) {
+                $str->update($data);
+            } else {
+                $data['nik'] = $user->nik;
+                $user->str()->create($data);
+            }
             DB::commit();
+            Notification::make('success')
+                ->title('Berhasil')
+                ->body('Data STR Anda berhasil disimpan')
+                ->success()
+                ->send();
+            return redirect()->route('filament.anggota.resources.profiles.str');
         } catch (\Throwable $th) {
             DB::rollBack();
+            Notification::make('error')
+                ->title('Gagal')
+                ->body('Data STR Anda gagal disimpan')
+                ->danger()
+                ->send();
         }
     }
 }

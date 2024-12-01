@@ -15,6 +15,12 @@ class ProfileResource extends Resource
 {
     protected static ?string $navigationIcon = 'heroicon-o-user';
 
+    protected static ?string $navigationGroup = 'Umum';
+
+    protected static ?string $breadcrumb = "Profil";
+
+    protected static ?string $navigationLabel = 'Profil';
+
     public static function getPages(): array
     {
         return [
@@ -34,6 +40,7 @@ class ProfileResource extends Resource
             'edit-sumprof' => Pages\EditSumprof::route('/edit-sumprof'),
             'edit-iuran' => Pages\EditIuran::route('/edit-iuran'),
             'edit-pendidikan' => Pages\EditPendidikan::route('/edit-pendidikan'),
+            'edit-kta-siporlin' => Pages\EditKTASiporlin::route('/edit-kta-siporlin'),
         ];
     }
 }

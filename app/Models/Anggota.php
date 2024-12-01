@@ -13,23 +13,4 @@ class Anggota extends Model
     use HasFactory;
 
     protected $primaryKey = 'nik';
-    
-    protected $fillable = [
-        'nama',
-        'tempat_lahir',
-        'tanggal_lahir',
-        'jk',
-        'agama',
-        'gd',
-        'status',
-        'pekerjaan',
-        'alamat',
-        'rt',
-        'rw',
-        'desa_kel',
-        'kec',
-        'provinsi',
-        'ktp',
-        'foto'
-    ];
 }
