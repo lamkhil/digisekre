@@ -7,7 +7,7 @@
                     <div class="px-6 flex relative flex-col">
                         <div class="flex relative z-0 items-center">
                             @livewire('avatar-uploader')
-                            <div class="pl-4 md:pl-12 flex-1"><strong class="text-lg md:text-32 font-semibold flex items-center space-x-2"><span>yuda setiawan</span></strong><span class="text-xs md:text-base text-granite-grey">Perekam Medis dan Informasi Kesehatan</span></div>
+                            <div class="pl-4 md:pl-12 flex-1"><strong class="text-lg md:text-32 font-semibold flex items-center space-x-2"><span>{{$anggota?->nama}}</span></strong><span class="text-xs md:text-base text-granite-grey">{{$anggota?->pekerjaan}}</span></div>
                         </div>
                     </div>
                 </div>
