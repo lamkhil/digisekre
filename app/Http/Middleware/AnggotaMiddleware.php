@@ -16,8 +16,8 @@ class AnggotaMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()?->is_admin === 'Supervisor') {
-            return redirect()->route('filament.admin.pages.beranda');
+        if (in_array(Auth::user()->is_admin, ["Admin", "Supervisor", "Pengurus", "Super Admin"])) {
+            return redirect('/admin');
         }
         return $next($request);
     }

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Filament\Anggota\Resources;
+namespace App\Filament\Admin\Resources;
 
-use App\Filament\Anggota\Resources\MutasiResource\Pages;
-use App\Filament\Anggota\Resources\MutasiResource\RelationManagers;
+use App\Filament\Admin\Resources\MutasiResource\Pages;
+use App\Filament\Admin\Resources\MutasiResource\RelationManagers;
 use App\Models\Dpc;
 use App\Models\Instansi;
 use App\Models\KabKota;
@@ -22,8 +22,6 @@ class MutasiResource extends Resource
 {
     protected static ?string $model = Pengajuan::class;
 
-    protected static ?string $breadcrumb = "Mutasi";
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     protected static ?string $navigationLabel = 'Mutasi';
@@ -31,6 +29,10 @@ class MutasiResource extends Resource
     protected static ?string $navigationGroup = 'Pengajuan';
 
     protected static ?int $navigationSort = 1;
+
+    protected static ?string $modelLabel = 'Mutasi';
+    
+    protected static ?string $breadcrumb = "Mutasi";
 
     public static function form(Form $form): Form
     {
@@ -98,7 +100,10 @@ class MutasiResource extends Resource
         return $table
             ->modifyQueryUsing(
                 function ($query) {
-                    return $query->where('nik', Filament::auth()->user()->nik)
+                    if (Filament::auth()->user()->is_admin == "Pengurus") {
+                        $query->where('dpc', Filament::auth()->user()->dpc);
+                    }
+                    return $query
                         ->where('jenis', 'Mutasi');
                 }
             )
@@ -106,6 +111,9 @@ class MutasiResource extends Resource
             ->emptyStateDescription('Belum ada data pengajuan mutasi')
             ->emptyStateHeading('Tidak ada data')
             ->columns([
+
+                Tables\Columns\TextColumn::make('nama')
+                    ->label('Nama'),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->default('Diajukan')
@@ -174,7 +182,6 @@ class MutasiResource extends Resource
             //
         ];
     }
-
 
     public static function getPages(): array
     {

@@ -11,5 +11,5 @@ class CreateRekomendasi extends CreateRecord
     protected static string $resource = RekomendasiResource::class;
 
 
-    protected static ?string $title = "Ajukan Rekomendasi";
+    protected static ?string $title = "Ajukan Rekomendasi SIK";
 }

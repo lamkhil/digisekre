@@ -32,18 +32,32 @@ class RekomendasiResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('dpc')
+                Forms\Components\Hidden::make('nik')
+                    ->default(Filament::auth()->user()->nik),
+                Forms\Components\Hidden::make('jenis')
+                    ->default('Rekomendasi SIK'),
+                Forms\Components\Hidden::make('tanggal_lahir')
+                    ->default(Filament::auth()->user()->anggota?->tanggal_lahir),
+                Forms\Components\Hidden::make('nama')
+                    ->default(Filament::auth()->user()->anggota?->nama),
+                Forms\Components\TextInput::make('dpc')
                     ->label('DPC')
                     ->default(Filament::auth()->user()->dpc)
-                    ->disabled(),
+                    ->readOnly(),
                 Forms\Components\TextInput::make('tempat_kerja')
                     ->label('Tempat Kerja')
                     ->default(Filament::auth()->user()->pekerjaan?->nama_instansi)
-                    ->disabled(),
+                    ->readOnly(),
                 Forms\Components\TextInput::make('kab_kota')
                     ->label('Kab/Kota')
                     ->default(Filament::auth()->user()->pekerjaan?->kab_kota)
-                    ->disabled()
+                    ->readOnly(),
+                Forms\Components\TextInput::make('kta')
+                    ->label('KTA')
+                    ->default(Filament::auth()->user()->kartu?->nomor)
+                    ->readOnly(),
+                Forms\Components\TextInput::make('pendidikan')
+                    ->default(Filament::auth()->user()->pendidikan?->prodi),
             ]);
     }
 
