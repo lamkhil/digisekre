@@ -128,22 +128,22 @@ class EditDataDiri extends Page
                     ->searchable(),
 
                 Select::make('kab')
-                    ->label('Kabupaten')
-                    ->options(fn(callable $get) => WilayahKabupaten::where('provinsi_id', $get('provinsi'))->pluck('nama', 'id'))
-                    ->searchable()
-                    ->disabled(fn(callable $get) => !$get('provinsi')),
+                ->label('Kabupaten')
+                ->options(WilayahKabupaten::pluck('nama', 'id'))
+                ->searchable(),
+
 
                 Select::make('kec')
-                    ->label('Kecamatan')
-                    ->options(fn(callable $get) => WilayahKecamatan::where('kabupaten_id', $get('kab'))->pluck('nama', 'id'))
-                    ->searchable()
-                    ->disabled(fn(callable $get) => !$get('kab')),
+                ->label('Kecamatan')
+                ->options(WilayahKecamatan::pluck('nama', 'id'))
+                ->searchable(),
+
 
                 Select::make('desa_kel')
-                    ->label('Kelurahan')
-                    ->options(fn(callable $get) => WilayahDesa::where('kecamatan_id', $get('kec'))->pluck('nama', 'id'))
-                    ->searchable()
-                    ->disabled(fn(callable $get) => !$get('kec')),
+                ->label('Kelurahan/Desa')
+                ->options(WilayahDesa::pluck('nama', 'id'))
+                ->searchable(),
+
                 FileUpload::make('ktp')
                     ->label('Upload Ktp'),
                 FileUpload::make('foto')
