@@ -100,7 +100,7 @@ class MutasiResource extends Resource
         return $table
             ->modifyQueryUsing(
                 function ($query) {
-                    if (Filament::auth()->user()->is_admin == "Pengurus") {
+                    if (Filament::auth()->user()->is_admin == "Admin") {
                         $query->where('dpc', Filament::auth()->user()->dpc);
                     }
                     return $query
