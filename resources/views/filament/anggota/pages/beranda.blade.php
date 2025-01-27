@@ -7,8 +7,8 @@
     </style>
 
     <div class="bg-dashboard-info bg-[#1EAAA2] rounded-lg p-2 md:p-14">
-        <h1 class="font-bold text-lg md:text-3xl text-white">Selamat datang di PROMIKI JABAR</h1>
-        <p class="text-xs md:text-base font-semibold text-white mt-2 mb-0">Media profil tenaga kesehatan di Indonesia yang terpusat untuk efisiensi pengelolaan data SDM kesehatan.</p>
+        <h1 class="font-bold text-lg md:text-3xl text-white">Selamat datang di PORMIKI JABAR</h1>
+        <p class="text-xs md:text-base font-semibold text-white mt-2 mb-0">Media profil Perekam Medis dan Informasi Kesehatan di Jawa Barat yang terpusat untuk efisiensi pengelolaan data PMIK di Jawa Barat.</p>
     </div>
 
     <div class="mt-10">
