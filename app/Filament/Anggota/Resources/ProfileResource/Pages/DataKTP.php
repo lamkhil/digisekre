@@ -3,9 +3,10 @@
 namespace App\Filament\Anggota\Resources\ProfileResource\Pages;
 
 use App\Filament\Anggota\Resources\ProfileResource;
+use App\Filament\Anggota\Resources\ProfileResource\Components\LayoutProfile;
 use Filament\Resources\Pages\Page;
 
-class DataKTP extends Page
+class DataKTP extends LayoutProfile
 {
     protected static string $resource = ProfileResource::class;
 

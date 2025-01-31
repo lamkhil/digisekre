@@ -3,10 +3,11 @@
 namespace App\Filament\Anggota\Resources\ProfileResource\Pages;
 
 use App\Filament\Anggota\Resources\ProfileResource;
+use App\Filament\Anggota\Resources\ProfileResource\Components\LayoutProfile;
 use Filament\Resources\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 
-class DataSerkom extends Page
+class DataSerkom extends LayoutProfile
 {
     protected static string $resource = ProfileResource::class;
 
@@ -14,9 +15,11 @@ class DataSerkom extends Page
 
     public $serkom;
 
-    public function mount()
+    public function mount() : void
     {
         $this->serkom = Auth::user()->serkom;
+
+        parent::mount();
     }
 
 }

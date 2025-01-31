@@ -2,18 +2,32 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Concerns\HasRelationships;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements FilamentUser
-
 {
-    use HasFactory, Notifiable;
+
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory, Notifiable, HasApiTokens, HasRelationships;
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
+    }
 
     public function canAccessPanel(Panel $panel): bool
     {
@@ -38,6 +52,7 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->belongsTo(Pekerjaan::class, 'nik', 'nik');
     }
+    
     public function iuran()
     {
         return $this->hasMany(Iuran::class, 'anggota_nik', 'nik');
@@ -58,19 +73,5 @@ class User extends Authenticatable implements FilamentUser
     public function kartu()
     {
         return $this->belongsTo(Kartu::class, 'nik', 'nik');
-    }
-
-
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Filament\Anggota\Resources\ProfileResource\Pages;
 
 use App\Filament\Anggota\Resources\ProfileResource;
+use App\Filament\Anggota\Resources\ProfileResource\Components\LayoutProfile;
 use App\Models\Iuran;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\TextInput;
@@ -16,7 +17,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 
-class DataIuran extends Page implements HasForms, HasTable
+class DataIuran extends LayoutProfile implements HasForms, HasTable
 {
     use InteractsWithTable;
     use InteractsWithForms;
@@ -27,9 +28,11 @@ class DataIuran extends Page implements HasForms, HasTable
 
     public $iuran;
 
-    public function mount()
+    public function mount() : void
     {
         $this->iuran = Auth::user()->iuran;
+
+        parent::mount();
     }
 
     public function table(Table $table): Table

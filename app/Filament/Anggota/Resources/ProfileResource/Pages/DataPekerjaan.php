@@ -3,10 +3,10 @@
 namespace App\Filament\Anggota\Resources\ProfileResource\Pages;
 
 use App\Filament\Anggota\Resources\ProfileResource;
-use Filament\Resources\Pages\Page;
+use App\Filament\Anggota\Resources\ProfileResource\Components\LayoutProfile;
 use Illuminate\Support\Facades\Auth;
 
-class DataPekerjaan extends Page
+class DataPekerjaan extends LayoutProfile
 {
     protected static string $resource = ProfileResource::class;
 
@@ -14,8 +14,10 @@ class DataPekerjaan extends Page
 
     public $pekerjaan;
 
-    public function mount()
+    public function mount() :void
     {
         $this->pekerjaan = Auth::user()->pekerjaan;
+
+        parent::mount();
     }
 }
