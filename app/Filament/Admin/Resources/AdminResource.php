@@ -33,7 +33,8 @@ class AdminResource extends Resource
 
     public static function canAccess(): bool
     {
-        return auth()->user()->is_admin == 'Super Admin';
+            $user = auth()->user();
+            return $user && $user->is_admin == 'Super Admin';
     }
 
     public static function form(Form $form): Form
