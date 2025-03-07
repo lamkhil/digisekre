@@ -24,7 +24,6 @@ class AnggotaPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
-            ->viteTheme('resources/css/filament/anggota/theme.css')
             ->default()
             ->id('anggota')
             ->path('')
@@ -48,6 +47,7 @@ class AnggotaPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ]) 
+            ->viteTheme('resources/css/filament/anggota/theme.css');
     }
 }
