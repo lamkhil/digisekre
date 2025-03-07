@@ -48,6 +48,8 @@ class AnggotaPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ]) 
-            ->viteTheme('resources/css/filament/anggota/theme.css');
+            ->viteTheme('resources/css/filament/anggota/theme.css')
+            ->databaseNotifications()
+            ->databaseNotificationsPolling('30s');
     }
 }
