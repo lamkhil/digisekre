@@ -91,7 +91,7 @@ class Pengaturan extends Page
             DB::beginTransaction();
 
             // Update password baru
-            $user->password = Hash::make($data['password']);
+            $user->password = Hash::make($data['password']); // bcrypt($data['password']);
             $user->save();
 
             DB::commit();
@@ -103,6 +103,11 @@ class Pengaturan extends Page
                 ->send();
         } catch (\Throwable $th) {
             DB::rollBack();
+            Notification::make('failed')
+                ->title('Terjadi kesalahan')
+                ->body('Terjadi kesalahan saat mengubah password Anda.')
+                ->danger()
+                ->send();
         }
     }
 }
