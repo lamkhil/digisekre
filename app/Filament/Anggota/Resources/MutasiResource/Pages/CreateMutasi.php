@@ -24,9 +24,15 @@ class CreateMutasi extends CreateRecord
             ->body('Pengajuan Mutasi telah diajukan oleh ' . auth()->user()->name)
             ->info()
             ->actions([
+                Action::make('Lihat Mutasi')
+                    ->icon('heroicon-o-eye')
+                    ->url(
+                        url('admin/mutasi/' . $this->record->id)
+                    )
             ])
             ->sendToDatabase(
-                User::where('is_admin','Admin')->get()
+                User::where('is_admin','Admin')
+                    ->where('dpc', $this->record->dpc)->get()
             );
     }
 }
