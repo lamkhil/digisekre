@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Pages;
 
 use App\Filament\Admin\Widgets\DpcChart;
+use App\Filament\Admin\Widgets\DpcTableWidget;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\Auth;
 
@@ -35,6 +36,7 @@ class Beranda extends Page
     {
         return [
             DpcChart::make(),
+            DpcTableWidget::make(),
         ];
     }
 }

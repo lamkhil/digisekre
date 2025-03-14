@@ -14,7 +14,7 @@ class ListMutasis extends ListRecords
 
     public function getTitle(): string | Htmlable
     {
-        if (Auth::user()->is_admin == 'Pengurus') {
+        if (Auth::user()->is_admin == 'Admin') {
             return 'List Mutasi DPC '.Auth::user()->dpc;
         }
         return 'List Mutasi';
