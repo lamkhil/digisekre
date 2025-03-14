@@ -15,8 +15,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Notifications\Notification;
+use App\Models\User;
 
 class MutasiResource extends Resource
 {
@@ -160,7 +160,43 @@ class MutasiResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
+                Tables\Actions\Action::make()
+                    ->name('validasi')
+                    ->label('Validasi')
+                    ->icon('heroicon-o-check-circle')
+                    ->modalHeading('Validasi Mutasi')
+                    ->form([
+                        Forms\Components\Select::make('status')
+                            ->label('Status')
+                            ->options([
+                                'Disetujui' => 'Disetujui',
+                                'Ditolak' => 'Ditolak'
+                            ])
+                            ->required(),
+                        Forms\Components\Textarea::make('pesan')
+                            ->label('Pesan')
+                            ->required()
+                    ])
+                    ->action(function ($record, $data) {
+                        $record->status = $data['status'];
+                        $record->pesan = $data['pesan'];
+                        $record->verifikator = auth()->user()->name;
+                        $record->tanggal_verif = now();
+                        $record->save();
+
+                        // Kirim notifikasi ke anggota
+                        Notification::make()
+                            ->title('Status Mutasi Anda telah diperbarui')
+                            ->body($data['pesan'])
+                            ->sendToDatabase(
+                                User::where('nik', $record->nik)->first()
+                            );
+
+                        Notification::make()
+                            ->title('Berhasil')
+                            ->success()
+                            ->send();
+                    })
                     ->visible(function ($record) {
                         return $record->status == null;
                     }),

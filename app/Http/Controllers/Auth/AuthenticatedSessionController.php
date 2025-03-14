@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if (Auth::user()->is_admin === 'Super Admin' || Auth::user()->is_admin === 'Admin') {
-            return redirect()->intended(route('filament.admin.pages.dashboard', absolute: false));
+            return redirect()->intended(route('filament.admin.pages.beranda', absolute: false));
         }
 
         return redirect()->intended(route('filament.anggota.pages.beranda', absolute: false));
