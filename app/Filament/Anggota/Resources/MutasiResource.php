@@ -5,6 +5,7 @@ namespace App\Filament\Anggota\Resources;
 use App\Filament\Anggota\Resources\MutasiResource\Pages;
 use App\Filament\Anggota\Resources\MutasiResource\RelationManagers;
 use App\Models\Dpc;
+use App\Models\Dpd;
 use App\Models\Instansi;
 use App\Models\KabKota;
 use App\Models\Mutasi;
@@ -56,6 +57,13 @@ class MutasiResource extends Resource
                     ->label('Kab/Kota')
                     ->default(Filament::auth()->user()->pekerjaan?->kab_kota)
                     ->readOnly(),
+                Forms\Components\Select::make('dpd_baru')
+                    ->label('DPD Baru')
+                    ->searchable()
+                    ->options(
+                        Dpd::all()->pluck('nama_dpd', 'nama_dpd')
+                    )
+                    ->required(),
                 Forms\Components\Select::make('dpc_baru')
                     ->label('DPC Baru')
                     ->searchable()
@@ -129,6 +137,8 @@ class MutasiResource extends Resource
 
                 Tables\Columns\TextColumn::make('kab_kota')
                     ->label('Kab/Kota'),
+                Tables\Columns\TextColumn::make('dpd_baru')
+                    ->label('DPD Baru'),
                 Tables\Columns\TextColumn::make('dpc_baru')
                     ->label('DPC Baru'),
 

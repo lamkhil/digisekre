@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Facades\Filament;
+use Filament\Forms\Components\FileUpload;
 
 class IuranResource extends Resource
 {
@@ -27,13 +29,57 @@ class IuranResource extends Resource
 
     protected static ?int $navigationSort = 2;
 
+    public $foto_iuran;
+
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                //
+                ->schema([
+                    Forms\Components\TextInput::make('anggota_nik')
+                ->label('NIK')
+                ->required()
+                ->default(Filament::auth()->user()->nik),
+                
+            Forms\Components\TextInput::make('nama')
+            ->default(Filament::auth()->user()->name),
+            Forms\Components\TextInput::make('dpc')
+            ->label('DPC')
+            ->default(Filament::auth()->user()->dpc),
+            Forms\Components\TextInput::make('nominal')
+            ->required()
+            ->prefix('Rp ')
+                ->numeric(),
+            Forms\Components\Select::make('Tahun')
+            ->required()
+                ->options(
+                    function(){
+                        $tahun = date('Y');
+                        $tahun = range(2000, $tahun);
+                        $tahun = array_reverse($tahun);
+                        return array_combine($tahun, $tahun);
+                    }
+                )
+                ->searchable(),
+            Forms\Components\Select::make('sumber')
+            ->required()
+            ->native(false)
+                ->options([
+                    'VA' => 'VA',
+                    'Manual' => 'Manual',
+                    'Transfer Bank' => 'Transfer Bank',
+                ]),
+            FileUpload::make('foto_iuran')
+            ->columnSpanFull()
+            ->label('Foto Iuran')
+            ->disk('public') 
+            ->directory('iurans')
+            ->image() 
+            ->required()
+            ->maxSize(2048)
             ]);
-    }
+        
+        }
+
 
     public static function table(Table $table): Table
     {
@@ -68,18 +114,17 @@ class IuranResource extends Resource
                     ->label('Tanggal Update')
                     ->sortable()
                     ->searchable(),
+                Tables\Columns\ImageColumn::make('foto_iuran')
+                    ->label('Foto Iuran')
+                    ->disk('public'),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 //Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                // Tables\Actions\BulkActionGroup::make([
-                //     Tables\Actions\DeleteBulkAction::make(),
-                // ]),
             ]);
+            
     }
 
     public static function getRelations(): array
