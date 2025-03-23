@@ -160,8 +160,7 @@ class MutasiResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\Action::make()
-                    ->name('validasi')
+                Tables\Actions\Action::make('validasi')
                     ->label('Validasi')
                     ->icon('heroicon-o-check-circle')
                     ->modalHeading('Validasi Mutasi')
