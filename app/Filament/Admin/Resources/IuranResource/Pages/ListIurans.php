@@ -13,11 +13,11 @@ class ListIurans extends ListRecords
 
     protected static ?string $title = "Iuran";
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            Actions\CreateAction::make()
-            ->label('Tambah Iuran'),
-        ];
-    }
+    // protected function getHeaderActions(): array
+    // {
+    //     return [
+    //         Actions\CreateAction::make()
+    //         ->label('Tambah Iuran'),
+    //     ];
+    // }
 }

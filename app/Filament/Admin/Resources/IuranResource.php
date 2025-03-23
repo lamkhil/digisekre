@@ -13,7 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Notifications\Notification;
 
 class IuranResource extends Resource
 {
@@ -149,6 +149,35 @@ class IuranResource extends Resource
             })
             ->defaultSort('updated_at', 'desc')
             ->columns([
+                Tables\Columns\TextColumn::make('nama')
+                    ->label('Nama'),
+                Tables\Columns\TextColumn::make('status')
+                ->getStateUsing(function ($record) {
+                    // Misal: data lama (dibuat sebelum 2025-03-01) dianggap sudah diverifikasi
+                    if ($record->created_at < now()->createFromFormat('Y-m-d', '2025-03-01')) {
+                        return 'Disetujui';
+                    }
+                    return $record->status; // untuk data baru (jika nanti diupdate)
+                })
+                    ->badge()
+                    ->default('Diajukan')
+                    ->color(function ($state) {
+                        return match ($state) {
+                            'Disetujui' => 'success',
+                            'Ditolak' => 'danger',
+                            default => 'warning',
+                        };
+                    })
+                    ->label('Status'),
+                Tables\Columns\TextColumn::make('pesan')
+                ->getStateUsing(function ($record) {
+                    if ($record->created_at < now()->createFromFormat('Y-m-d', '2025-03-01')) {
+                        return 'done';
+                    }
+                    return $record->pesan;
+                })
+                    ->label('Pesan')
+                    ->wrap(),
                 Tables\Columns\TextColumn::make('anggota_nik')
                     ->label('NIK'),
                 Tables\Columns\TextColumn::make('nama')
@@ -179,7 +208,46 @@ class IuranResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                
+                    Tables\Actions\Action::make('validasi')
+                        ->label('Validasi')
+                        ->icon('heroicon-o-check-circle')
+                        ->modalHeading('Validasi Iuran')
+                        ->form([
+                            Forms\Components\Select::make('status')
+                                ->label('Status')
+                                ->options([
+                                    'Disetujui' => 'Disetujui',
+                                    'Ditolak' => 'Ditolak'
+                                ])
+                                ->required(),
+                            Forms\Components\Textarea::make('pesan')
+                                ->label('Pesan')
+                                ->required()
+                        ])
+                        ->action(function ($record, $data) {
+                            $record->status = $data['status'];
+                            $record->pesan = $data['pesan'];
+                            $record->operator = auth()->user()->name;
+                            $record->updated_at = now();
+                            $record->save();
+    
+                            // Kirim notifikasi ke anggota
+                            Notification::make()
+                                ->title('Status iuran Anda telah diperbarui')
+                                ->body($data['pesan'])
+                                ->sendToDatabase(
+                                    User::where('nik', $record->nik)->first()
+                                );
+    
+                            Notification::make()
+                                ->title('Berhasil')
+                                ->success()
+                                ->send();
+                        })
+                        ->visible(function ($record) {
+                            return $record->status == 'diajukan';
+                        }),
             ]);
             
     }
