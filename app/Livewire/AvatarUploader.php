@@ -37,6 +37,7 @@ class AvatarUploader extends Component implements HasForms
                     ->label('')
                     ->avatar()
                     ->live()
+                    ->directory('anggota/foto/'.(Auth::user()->anggota?->nik ?? ''))
                     ->disk('public'),
                 Actions::make([
                     Action::make('save')

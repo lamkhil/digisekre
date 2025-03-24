@@ -13,4 +13,9 @@ class Anggota extends Model
     use HasFactory;
 
     protected $primaryKey = 'nik';
+
+    public function getFotoUrlAttribute()
+    {
+        return $this->foto ? asset('storage/' . $this->foto) : null;
+    }
 }

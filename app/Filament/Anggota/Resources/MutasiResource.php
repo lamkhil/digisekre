@@ -173,8 +173,8 @@ class MutasiResource extends Resource
                         return $record->status == 'Disetujui';
                     })
                     ->url(function ($record) {
-                        return asset('storage/' . $record->mutasi?->dokumen);
-                    }),
+                        return route('mutasi.download', $record->id);
+                    }, shouldOpenInNewTab: true),
             ]);
     }
 

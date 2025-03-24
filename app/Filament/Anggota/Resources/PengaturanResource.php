@@ -19,6 +19,10 @@ class PengaturanResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-cog';
 
     protected static ?string $navigationGroup = 'Umum';
+    
+    protected static ?string $pluralLabel = "Pengaturan";
+    protected static ?string $modelLabel = "Pengaturan";
+    protected static ?string $navigationLabel = "Pengaturan";
 
     public static function getPages(): array
     {

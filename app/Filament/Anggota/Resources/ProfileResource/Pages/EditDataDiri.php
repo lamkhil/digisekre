@@ -57,15 +57,20 @@ class EditDataDiri extends Page
             ->schema([
                 TextInput::make('nik')
                     ->numeric()
-                    ->disabled(function () {
-                        return Auth::user()->nik != null;
-                    })
                     ->unique(
                         Anggota::class,
                         'nik',
                         Auth::user()->anggota
                     )
-                    ->length(16)
+                    ->dehydrated(true)
+                    ->minLength(16)
+                    ->maxLength(16)
+                    ->hint(fn($state, $component) => strlen($state) . '/'.$component->getMaxLength())
+                    ->mask('9999999999999999')
+                    ->disabled(
+                        Auth::user()->nik != null
+                    )
+                    ->reactive()
                     ->required(),
                 TextInput::make('nama')->required(),
                 TextInput::make('tempat_lahir')->label('Tempat Lahir'),
@@ -124,30 +129,56 @@ class EditDataDiri extends Page
 
                 Select::make('provinsi')
                     ->label('Provinsi')
-                    ->options(WilayahProvinsi::pluck('nama', 'id'))
-                    ->searchable(),
-
+                    ->options(function () {
+                        return WilayahProvinsi::pluck('nama', 'id');
+                    })
+                    ->searchable()
+                    ->required()
+                    ->afterStateUpdated(function ($set) {
+                        $set('kab', null);
+                        $set('kec', null);
+                        $set('desa_kel', null);
+                    })
+                    ->live(debounce: 500),
                 Select::make('kab')
-                ->label('Kabupaten')
-                ->options(WilayahKabupaten::pluck('nama', 'id'))
-                ->searchable(),
-
-
+                    ->label('Kabupaten')
+                    ->options(function ($get) {
+                        return WilayahKabupaten::where('provinsi_id', $get('provinsi'))->pluck('nama', 'id');
+                    })
+                    ->disabled(fn($get) => $get('provinsi') == null)
+                    ->searchable()
+                    ->required()
+                    ->afterStateUpdated(function ($set) {
+                        $set('kec', null);
+                        $set('desa_kel', null);
+                    })
+                    ->live(debounce: 500),
                 Select::make('kec')
-                ->label('Kecamatan')
-                ->options(WilayahKecamatan::pluck('nama', 'id'))
-                ->searchable(),
-
-
+                    ->label('Kecamatan')
+                    ->options(function ($get) {
+                        return WilayahKecamatan::where('kabupaten_id', $get('kab'))->pluck('nama', 'id');
+                    })
+                    ->disabled(fn($get) => $get('kab') == null)
+                    ->searchable()
+                    ->required()
+                    ->afterStateUpdated(function ($set) {
+                        $set('desa_kel', null);
+                    })
+                    ->live(debounce: 500),
                 Select::make('desa_kel')
-                ->label('Kelurahan/Desa')
-                ->options(WilayahDesa::pluck('nama', 'id'))
-                ->searchable(),
+                    ->required()
+                    ->label('Kelurahan/Desa')
+                    ->disabled(fn($get) => $get('kec') == null)
+                    ->options(function ($get) {
+                        return WilayahDesa::where('kecamatan_id', $get('kec'))->pluck('nama', 'id');
+                    })
+                    ->searchable()
+                    ->live(debounce: 500),
 
                 FileUpload::make('ktp')
                     ->label('Upload Ktp'),
                 FileUpload::make('foto')
-                    ->label('Upload Foto')
+                    ->label('Upload Foto Diri')
             ])->statePath('data');
     }
 
@@ -188,8 +219,24 @@ class EditDataDiri extends Page
             } else {
                 Anggota::where('nik', $user->nik)->update($data);
             }
+            $provinsi = WilayahProvinsi::find($data['provinsi'])?->nama;
+            $kab = WilayahKabupaten::find($data['kab'])?->nama;
+            $kec = WilayahKecamatan::find($data['kec'])?->nama;
+            $desaKel = WilayahDesa::find($data['desa_kel'])?->nama;
             $user->nik = $data['nik'];
             $user->name = $data['nama'];
+            if ($provinsi != null) {
+                $data['provinsi'] = $provinsi;
+            }
+            if ($kab != null) {
+                $data['kab'] = $kab;
+            }
+            if ($kec != null) {
+                $data['kec'] = $kec;
+            }
+            if ($desaKel != null) {
+                $data['desa_kel'] = $desaKel;
+            }
             $user->save();
 
             Notification::make('success')

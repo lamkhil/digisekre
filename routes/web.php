@@ -5,4 +5,4 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
-Route::get('mutasi/download',[\App\Http\Controllers\PdfController::class,'generatePdf']);
+Route::get('mutasi/{pengajuan}/download',[\App\Http\Controllers\PdfController::class,'generatePdf'])->name('mutasi.download');
