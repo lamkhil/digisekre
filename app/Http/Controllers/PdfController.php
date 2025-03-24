@@ -45,18 +45,18 @@ class PdfController extends Controller
         $logoFile = file_get_contents(asset('images/pormiki.png'));
         $logoBase64 = 'data:image/' . 'png' . ';base64,' . base64_encode($logoFile);
 
-        $mutasi = $pengajuan->mutasi;
+        $rekomendasi = $pengajuan->rekomendasi;
         $data = [
             'logoBase64' => $logoBase64,
-            'no_surat' => $mutasi?->no_surat . '/DPD-PORMIKI/JABAR/SM/' . $mutasi?->bulan . '/' . $mutasi?->tahun,
+            'no_surat' => $rekomendasi?->no_surat . '/DPD-PORMIKI/JABAR/SM/' . $rekomendasi?->bulan . '/' . $rekomendasi?->tahun,
             'jabatan_ketua' => 'Ketua DPD PORMIKI Provinsi Jawa Barat',
             'nama' => $pengajuan?->nama,
             'tempat_lahir' => 'Bandung',
             'jenis_kelamin' => 'Perempuan',
             'agama' => 'Islam',
-            'dpc_baru' => $mutasi?->dpc,
-            'kota_surat' => $mutasi?->dpc,
-            'tanggal_surat' => $mutasi?->tanggal,
+            'dpc_baru' => $rekomendasi?->dpc,
+            'kota_surat' => $rekomendasi?->dpc,
+            'tanggal_surat' => $rekomendasi?->tanggal,
             'nama_ketua' => 'Erik Gunawan, M.M.R.S',
             'jabatan' => 'Anggota',
             'tahun' => '2025'
@@ -66,7 +66,7 @@ class PdfController extends Controller
         $pdf = PDF::loadView('pdf', $data);
 
         // Pilihan 1: Tampilkan langsung di browser
-        return $pdf->stream('surat-keterangan-pindah-keanggotaan.pdf');
+        return $pdf->stream('rekomendasi-sik.pdf');
 
         // Pilihan 2: Langsung download file
         // return $pdf->download('surat-keterangan-pindah-keanggotaan.pdf');

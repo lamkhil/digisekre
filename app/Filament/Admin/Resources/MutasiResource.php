@@ -31,7 +31,7 @@ class MutasiResource extends Resource
     protected static ?int $navigationSort = 1;
 
     protected static ?string $modelLabel = 'Mutasi';
-    
+
     protected static ?string $breadcrumb = "Mutasi";
 
     public static function form(Form $form): Form
@@ -206,8 +206,8 @@ class MutasiResource extends Resource
                         return $record->status == 'Disetujui';
                     })
                     ->url(function ($record) {
-                        return asset('storage/' . $record->mutasi?->dokumen);
-                    }),
+                        return route('mutasi.download', $record->id);
+                    }, shouldOpenInNewTab: true),
             ]);
     }
 
