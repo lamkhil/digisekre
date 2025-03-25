@@ -192,6 +192,7 @@ class MutasiResource extends Resource
             'index' => Pages\ListMutasis::route('/'),
             'create' => Pages\CreateMutasi::route('/create'),
             'edit' => Pages\EditMutasi::route('/{record}/edit'),
+            'view' => Pages\ViewMutasi::route('/{record}'),
         ];
     }
 }

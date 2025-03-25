@@ -17,6 +17,23 @@ class EditMutasi extends EditRecord
         ];
     }
 
+    public function mount(int | string $record): void
+    {
+        $this->record = $this->resolveRecord($record);
+
+        $this->authorizeAccess();
+
+        $this->fillForm();
+
+        $this->previousUrl = url()->previous();
+
+        if ($this->record->status == 'Disetujui' || $this->record->status == 'Ditolak') {
+            $this->redirect(ViewMutasi::getUrl([
+                'record' => $this->record,
+            ]));
+        }
+    }
+
 
     protected static ?string $title = "Edit Mutasi";
 }
