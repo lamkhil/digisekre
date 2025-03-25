@@ -89,6 +89,18 @@ class IuranResource extends Resource
             })
             ->defaultSort('created_at', 'desc')
             ->columns([
+                Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->default('Diajukan')
+                    ->color(function ($state) {
+                        return match ($state) {
+                            'Disetujui' => 'success',
+                            'Ditolak' => 'danger',
+                            default => 'warning',
+                        };
+                    })
+                    ->default('Diajukan')
+                    ->label('Status'),
                 Tables\Columns\TextColumn::make('anggota_nik')
                     ->label('NIK'),
                 Tables\Columns\TextColumn::make('nama')
@@ -140,6 +152,7 @@ class IuranResource extends Resource
             'index' => Pages\ListIurans::route('/'),
             'create' => Pages\CreateIuran::route('/create'),
             'edit' => Pages\EditIuran::route('/{record}/edit'),
+            'view' => Pages\ViewIuran::route('/{record}'),
         ];
     }
 }

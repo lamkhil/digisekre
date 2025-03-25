@@ -138,6 +138,7 @@ class RekomendasiResource extends Resource
             'index' => Pages\ListRekomendasis::route('/'),
             'create' => Pages\CreateRekomendasi::route('/create'),
             'edit' => Pages\EditRekomendasi::route('/{record}/edit'),
+            'view' => Pages\ViewRekomendasi::route('/{record}'),
         ];
     }
 }

@@ -35,8 +35,8 @@ class Beranda extends Page
     protected function getFooterWidgets(): array
     {
         return [
-            DpcChart::make(),
-            DpcTableWidget::make(),
+            // DpcChart::make(),
+            // DpcTableWidget::make(),
         ];
     }
 }
