@@ -3,6 +3,7 @@
 namespace App\Filament\Anggota\Resources\MutasiResource\Pages;
 
 use App\Filament\Admin\Resources\MutasiResource\Pages\EditMutasi as AdminEditMutasi;
+use App\Filament\Admin\Resources\MutasiResource\Pages\ViewMutasi;
 use App\Filament\Anggota\Resources\MutasiResource;
 use App\Models\User;
 use Filament\Actions;
@@ -27,7 +28,9 @@ class CreateMutasi extends CreateRecord
                 Action::make('Lihat Mutasi')
                     ->icon('heroicon-o-eye')
                     ->url(
-                        url('admin/mutasi/' . $this->record->id)
+                        ViewMutasi::getUrl([
+                            'record' => $this->record,
+                        ])
                     )
             ])
             ->sendToDatabase(

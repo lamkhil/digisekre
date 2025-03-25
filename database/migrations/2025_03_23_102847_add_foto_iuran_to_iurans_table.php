@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('iurans', function (Blueprint $table) {
             $table->string('foto_iuran')->nullable()->after('sumber');
+            $table->string('status', 50)->nullable();
         });
     }
 
@@ -23,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('iurans', function (Blueprint $table) {
             $table->dropColumn('foto_iuran');
+            $table->dropColumn('status');
         });
     }
 };
