@@ -159,15 +159,15 @@ class RekomendasiSikResource extends Resource
                     ->visible(function ($record) {
                         return $record->status == null;
                     }),
-                Tables\Actions\Action::make('download')
+                    Tables\Actions\Action::make('download')
                     ->label('Download')
                     ->icon('heroicon-o-archive-box-arrow-down')
                     ->visible(function ($record) {
                         return $record->status == 'Disetujui';
                     })
                     ->url(function ($record) {
-                        return asset('storage/' . $record->rekomendasi?->dokumen);
-                    }),
+                        return route('rekomendasi.download', $record->id);
+                    }, shouldOpenInNewTab: true),
             ]);
     }
 

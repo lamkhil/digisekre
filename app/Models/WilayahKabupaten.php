@@ -16,4 +16,9 @@ class WilayahKabupaten extends Model
         'provinsi_id',
         'nama'
     ];
+
+    public function provinsi()
+    {
+        return $this->belongsTo(WilayahProvinsi::class, 'provinsi_id');
+    }
 }

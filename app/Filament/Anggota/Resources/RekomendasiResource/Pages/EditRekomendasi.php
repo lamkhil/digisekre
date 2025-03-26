@@ -16,4 +16,21 @@ class EditRekomendasi extends EditRecord
             Actions\DeleteAction::make(),
         ];
     }
+
+    public function mount(int | string $record): void
+    {
+        $this->record = $this->resolveRecord($record);
+
+        $this->authorizeAccess();
+
+        $this->fillForm();
+
+        $this->previousUrl = url()->previous();
+
+        if ($this->record->status == 'Disetujui' || $this->record->status == 'Ditolak') {
+            $this->redirect(ViewRekomendasi::getUrl([
+                'record' => $this->record,
+            ]));
+        }
+    }
 }

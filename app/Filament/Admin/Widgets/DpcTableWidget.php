@@ -11,6 +11,12 @@ use Filament\Widgets\TableWidget as BaseWidget;
 
 class DpcTableWidget extends BaseWidget
 {
+
+    protected static ?string $heading = 'Anggota DPC ';
+    /**
+     * @var int | string | array<string, int | null>
+     */
+    protected int | string | array $columnSpan = 'full';
     public function table(Table $table): Table
     {
         return $table

@@ -16,4 +16,9 @@ class WilayahDesa extends Model
         'kecamatan_id',
         'nama'
     ];
+
+    public function kecamatan()
+    {
+        return $this->belongsTo(WilayahKecamatan::class, 'kecamatan_id');
+    }
 }

@@ -30,8 +30,7 @@ class EditEmail extends Page
                 TextInput::make('email')
                 ->label('Email')
                 ->email()
-                ->required()
-                ->disabled(),
+                ->required(),
                 
             ])->statePath('data');
     }

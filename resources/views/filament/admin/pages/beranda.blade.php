@@ -17,7 +17,7 @@
             <div class="flex flex-col relative w-full md:w-[55%] border border-chinese-white px-4 md:px-6 py-6 md:py-6 rounded-lg">
                 <div class="flex flex-col md:flex-row ">
                     <div class="mr-auto md:mr-10 ml-auto md:ml-0">
-                        <img alt="Profile" width="229" height="283" decoding="async" data-nimg="1" class="rounded-lg" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" style="color: transparent;">
+                        <img alt="Profile" width="229" height="283" decoding="async" data-nimg="1" class="rounded-lg" src="{{ auth()->user()->avatar_url }}" style="color: transparent;">
                     </div>
                     <div class="mt-6 md:mt-0 flex-1">
                         <div class="flex flex-col border-b border-chinese-white pb-3 mb-3"><strong class="tracking-primary font-bold text-xl pr-10">{{ strtoupper($user->name) }}</strong><span>{{ $user->anggota?->pekerjaan }}</span></div>

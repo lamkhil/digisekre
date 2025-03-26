@@ -14,8 +14,8 @@ class ListIurans extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            // Actions\CreateAction::make()
-            //     ->label('Tambah Iuran'),
+            Actions\CreateAction::make()
+                ->label('Tambah Iuran'),
         ];
     }
 

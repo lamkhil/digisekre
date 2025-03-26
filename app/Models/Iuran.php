@@ -9,15 +9,10 @@ class Iuran extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'id',
-        'nama',
-        'anggota_nik',
-        'nominal',
-        'tahun',
-        'sumber',
-        'dpc',
-        'operator',
-        'keterangan'
-    ];
+    protected $guarded = [];
+
+    public function getFotoIuranUrlAttribute()
+    {
+        return $this->foto_iuran ? asset('storage/' . $this->foto_iuran) : null;
+    }
 }
