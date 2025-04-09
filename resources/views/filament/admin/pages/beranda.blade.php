@@ -2,7 +2,7 @@
 
     <style>
         .bg-dashboard-info {
-            background-image: url('/images/bg-dashboard-info.png');
+            background-image: url('/images/banner-dpd-pormiki.png');
         }
     </style>
 
@@ -39,7 +39,7 @@
                                     <div class="pt-1"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M16 7.552C15.9922 7.47851 15.9771 7.4061 15.955 7.336V7.264C15.9189 7.18174 15.8708 7.10613 15.8125 7.04L11.3125 2.24C11.2505 2.17777 11.1796 2.12646 11.1025 2.088H11.035L10.795 2H6.25C5.65326 2 5.08097 2.25286 4.65901 2.70294C4.23705 3.15303 4 3.76348 4 4.4V15.6C4 16.2365 4.23705 16.847 4.65901 17.2971C5.08097 17.7471 5.65326 18 6.25 18H13.75C14.3467 18 14.919 17.7471 15.341 17.2971C15.7629 16.847 16 16.2365 16 15.6V7.6C16 7.6 16 7.6 16 7.552ZM11.5 4.728L13.4425 6.8H11.5V4.728ZM14.5 15.6C14.5 15.8122 14.421 16.0157 14.2803 16.1657C14.1397 16.3157 13.9489 16.4 13.75 16.4H6.25C6.05109 16.4 5.86032 16.3157 5.71967 16.1657C5.57902 16.0157 5.5 15.8122 5.5 15.6V4.4C5.5 4.18783 5.57902 3.98434 5.71967 3.83431C5.86032 3.68429 6.05109 3.6 6.25 3.6H10V7.6C10 7.81217 10.079 8.01566 10.2197 8.16569C10.3603 8.31571 10.5511 8.4 10.75 8.4H14.5V15.6Z" fill="#242424"></path>
                                         </svg></div>
-                                    <div class="flex flex-col"><strong class="font-bold">Nomor STR</strong><span>GL00001613642334</span></div>
+                                    <div class="flex flex-col"><strong class="font-bold">Nomor STR</strong><span>{{$str?->no_str ?? '-'}}</span></div>
                                 </li>
                                 <li class="flex space-x-3">
                                     <div class="pt-1"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
