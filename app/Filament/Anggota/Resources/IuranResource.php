@@ -14,6 +14,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\FileUpload;
+use Filament\Infolists\Components\Group;
+use Filament\Infolists\Components\TextEntry\TextEntrySize;
+
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 
 class IuranResource extends Resource
 {
@@ -77,6 +84,73 @@ class IuranResource extends Resource
                     ->image()
                     ->required()
                     ->maxSize(2048)
+            ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Section::make()
+                    ->schema([
+                        TextEntry::make('status')
+                            ->badge()
+                            ->color(function ($state) {
+                                return match ($state) {
+                                    'Disetujui' => 'success',
+                                    'Ditolak' => 'danger',
+                                    default => 'warning',
+                                };
+                            })
+                            ->default('Diajukan')
+                            ->inlineLabel()
+                            ->label('Status'),
+                        TextEntry::make('tahun')
+                            ->inlineLabel()
+                            ->label('Tahun'),
+                        TextEntry::make('nominal')
+                            ->inlineLabel()
+                            ->label('Nominal')
+                            ->formatStateUsing(fn($state) => 'Rp ' . number_format($state, 0, ',', '.')),
+                        TextEntry::make('sumber')
+                            ->inlineLabel()
+                            ->label('Sumber Iuran'),
+                        TextEntry::make('created_at')
+                            ->inlineLabel()
+                            ->label('Tanggal Pengajuan'),
+                        TextEntry::make('updated_at')
+                            ->inlineLabel()
+                            ->label('Tanggal Update'),
+                        ImageEntry::make('foto_iuran_url')
+                            ->label('Bukti Pembayaran')
+                            ->size('w-full')
+                            ->alignCenter()
+                            ->url(fn($record) => $record->foto_iuran_url, true)
+                            ->columnSpanFull(),
+                    ])
+                    ->columnSpanFull()
+                    ->columns(),
+                Section::make('Data Anggota')
+                    ->schema([
+                        TextEntry::make('anggota_nik')
+                            ->label('NIK'),
+                        TextEntry::make('nama')
+                            ->label('Nama'),
+                        TextEntry::make('dpc')
+                            ->label('DPC'),
+                    ])
+                    ->columns(2),
+                Section::make('Data Validator')
+                    ->schema([
+                        TextEntry::make('operator')
+                            ->label('Operator')
+                            ->default('-'),
+                        TextEntry::make('keterangan')
+                            ->label('Keterangan')
+                            ->default('-')
+                            ->columnSpanFull(),
+                    ])
+                    ->columns(2),
             ]);
     }
 

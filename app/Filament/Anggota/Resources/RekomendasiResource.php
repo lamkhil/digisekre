@@ -13,6 +13,11 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Infolists\Components\Group;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\TextEntry\TextEntrySize;
+use Filament\Infolists\Infolist;
 
 class RekomendasiResource extends Resource
 {
@@ -59,6 +64,78 @@ class RekomendasiResource extends Resource
                 Forms\Components\TextInput::make('pendidikan')
                     ->default(Filament::auth()->user()->pendidikan?->prodi),
             ]);
+    }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+        ->schema([
+            Group::make([
+                Section::make()
+                    ->schema([
+                        TextEntry::make('jenis')
+                            ->label('Jenis Pengajuan')
+                            ->badge()
+                            ->inlineLabel()
+                            ->size(TextEntrySize::Large)
+                            ->default('Rekomendasi Sik'),
+                        TextEntry::make('status')
+                            ->label('Status')
+                            ->badge()
+                            ->color(function ($state) {
+                                return match ($state) {
+                                    'Disetujui' => 'success',
+                                    'Ditolak' => 'danger',
+                                    default => 'warning',
+                                };
+                            })
+                            ->inlineLabel()
+                            ->size(TextEntrySize::Large)
+                            ->default('Diajukan'),
+                    ])->columns(2)
+                    ->columnSpanFull(),
+            ])->columns(4)
+                ->columnSpanFull(),
+                        
+        Section::make('Informasi Pengajuan')
+        ->schema([
+            TextEntry::make('nik')
+                ->label('NIK')
+                ->default(Filament::auth()->user()->nik),
+    
+            TextEntry::make('jenis')
+                ->label('Jenis')
+                ->default('Rekomendasi SIK'),
+    
+            TextEntry::make('tanggal_lahir')
+                ->label('Tanggal Lahir')
+                ->default(Filament::auth()->user()->anggota?->tanggal_lahir),
+    
+            TextEntry::make('nama')
+                ->label('Nama')
+                ->default(Filament::auth()->user()->anggota?->nama),
+    
+            TextEntry::make('dpc')
+                ->label('DPC')
+                ->default(Filament::auth()->user()->dpc),
+    
+            TextEntry::make('tempat_kerja')
+                ->label('Tempat Kerja')
+                ->default(Filament::auth()->user()->pekerjaan?->nama_instansi),
+    
+            TextEntry::make('kab_kota')
+                ->label('Kab/Kota')
+                ->default(Filament::auth()->user()->pekerjaan?->kab_kota),
+    
+            TextEntry::make('kta')
+                ->label('KTA')
+                ->default(Filament::auth()->user()->kartu?->nomor),
+    
+            TextEntry::make('pendidikan')
+                ->label('Pendidikan')
+                ->default(Filament::auth()->user()->pendidikan?->prodi),
+        ])->columns(3)
+        ]);
     }
 
     public static function table(Table $table): Table

@@ -18,6 +18,11 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Infolists\Components\Group;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Components\TextEntry\TextEntrySize;
+use Filament\Infolists\Infolist;
 
 class MutasiResource extends Resource
 {
@@ -100,6 +105,82 @@ class MutasiResource extends Resource
                     ]),
             ]);
     }
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                Group::make([
+                    Section::make()
+                        ->schema([
+                            TextEntry::make('jenis')
+                                ->label('Jenis Pengajuan')
+                                ->badge()
+                                ->inlineLabel()
+                                ->size(TextEntrySize::Large)
+                                ->default('Mutasi'),
+                            TextEntry::make('status')
+                                ->label('Status')
+                                ->badge()
+                                ->color(function ($state) {
+                                    return match ($state) {
+                                        'Disetujui' => 'success',
+                                        'Ditolak' => 'danger',
+                                        default => 'warning',
+                                    };
+                                })
+                                ->inlineLabel()
+                                ->size(TextEntrySize::Large)
+                                ->default('Diajukan'),
+                        ])->columns(2)
+                        ->columnSpanFull(),
+                ])->columns(4)
+                    ->columnSpanFull(),
+                Section::make('Informasi Pengajuan')
+                    ->schema([
+                        TextEntry::make('nik')
+                            ->label('NIK')
+                            ->default(Filament::auth()->user()->nik),
+                        TextEntry::make('nama')
+                            ->label('Nama')
+                            ->default(Filament::auth()->user()->anggota?->nama),
+                        TextEntry::make('kta')
+                            ->label('KTA')
+                            ->default(Filament::auth()->user()->kartu?->nomor),
+                        TextEntry::make('dpc')
+                            ->label('DPC')
+                            ->default(Filament::auth()->user()->dpc),
+                        TextEntry::make('tempat_kerja')
+                            ->label('Tempat Kerja')
+                            ->default(Filament::auth()->user()->pekerjaan?->nama_instansi),
+                        TextEntry::make('kab_kota')
+                            ->label('Kab/Kota')
+                            ->default(Filament::auth()->user()->pekerjaan?->kab_kota),
+                    ])->columns(3),
+                Section::make('Informasi Baru')
+                    ->schema([
+                        TextEntry::make('dpc_baru')
+                            ->label('DPC Baru')
+                            ->default(Dpc::all()->pluck('nama_dpc', 'nama_dpc')->first()),
+                        TextEntry::make('kab_kota_baru')
+                            ->label('Kab/Kota Baru')
+                            ->default(KabKota::all()->pluck('nama_kab', 'nama_kab')->first()),
+                        TextEntry::make('tempat_kerja_baru')
+                            ->label('Tempat Kerja Baru')
+                            ->default(Instansi::all()->pluck('nama_instansi', 'nama_instansi')->first()),
+                    ]),
+                Section::make('Lainnya')
+                    ->schema([
+                        TextEntry::make('cpd')
+                            ->label('CPD')
+                            ->default('Belum Punya'),
+                        TextEntry::make('sanksi')
+                            ->label('Sanksi')
+                            ->default('Belum Pernah'),
+                    ]),
+            ]);
+    }
+
 
     public static function table(Table $table): Table
     {

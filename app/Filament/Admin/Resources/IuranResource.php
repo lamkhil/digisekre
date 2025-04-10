@@ -48,7 +48,7 @@ class IuranResource extends Resource
                             ->required()
                             ->options(function () {
                                 return User::query()
-                                    ->when(auth()->user()->is_admin == 'Admin', function ($query) {
+                                    ->when(auth()->user()->is_admin == 'Super Admin', function ($query) {
                                         return $query->where('dpc', auth()->user()->dpc);
                                     })
                                     ->take(50)
@@ -224,7 +224,7 @@ class IuranResource extends Resource
     {
         return $table
             ->modifyQueryUsing(function (Builder $query) {
-                if (auth()->user()->is_admin == 'Admin') {
+                if (auth()->user()->is_admin == 'Super Admin') {
                     $query->where('dpc', auth()->user()->dpc);
                 }
             })
